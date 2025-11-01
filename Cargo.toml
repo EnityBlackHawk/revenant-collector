@@ -1,0 +1,13 @@
+[package]
+name = "revenant-collector"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "revenant_collector"
+crate-type = ["cdylib"]
+
+[dependencies]
+backtrace = "0.3"
+cpp_demangle = "0.5.0"
+comfy-table = "7.2.0"
