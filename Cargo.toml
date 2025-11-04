@@ -5,9 +5,10 @@ edition = "2024"
 
 [lib]
 name = "revenant_collector"
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 backtrace = "0.3"
 cpp_demangle = "0.5.0"
 comfy-table = "7.2.0"
+libc = "0.2.177"
