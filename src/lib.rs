@@ -16,7 +16,7 @@ pub extern "C" fn print_stacktrace() {
             entries.push( StackEntry::from_backtrace_symbol(symbol) );
         }
     }
-    print_table(entries.as_slice());
+    print_table(entries.as_slice(), 128);
 }
 
 extern "C" fn handler(sig: c_int) {
