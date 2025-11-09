@@ -12,8 +12,9 @@ pub struct UserDataDesc {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[derive(PartialEq)]
 pub enum UserDataTypes {
-    String,
+    String = 0,
     Number,
     Boolean,
     Blob,

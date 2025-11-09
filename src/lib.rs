@@ -1,15 +1,15 @@
 mod stack_entry;
 mod table;
 mod dump;
+mod ffi;
 
 use libc::{signal, c_int};
 use backtrace::Backtrace;
 use stack_entry::StackEntry;
 use crate::table::print_table;
+use crate::dump::{dump_generator, dump_config_desc::DumpConfigDesc};
 
-
-#[unsafe(no_mangle)]
-pub extern "C" fn print_stacktrace() {
+fn get_stacktrace() -> Vec<StackEntry> {
     let bt = Backtrace::new();
     let mut entries : Vec<StackEntry> = Vec::new();
     for frame in bt.frames() {
@@ -17,13 +17,35 @@ pub extern "C" fn print_stacktrace() {
             entries.push( StackEntry::from_backtrace_symbol(symbol) );
         }
     }
-    print_table(entries.as_slice(), 128);
+    entries
 }
 
 extern "C" fn handler(sig: c_int) {
     eprintln!("Caught signal: {}", sig);
     print_stacktrace();
     std::process::exit(1);
+}
+
+
+#[unsafe(no_mangle)]
+pub extern "C" fn print_stacktrace() {
+    let entries = get_stacktrace();
+    print_table(entries.as_slice(), 128);
+}
+
+
+#[unsafe(no_mangle)]
+pub extern "C" fn snapshot(dump_desc : DumpConfigDesc) {
+    let entries = get_stacktrace();
+    match dump_generator::generate_dump(dump_desc, entries) {
+        Ok(_) => {
+            eprintln!("Dump generated successfully.");
+        },
+        Err(e) => {
+            eprintln!("Failed to generate dump: {}", e);
+        }
+    }
+
 }
 
 #[unsafe(no_mangle)]

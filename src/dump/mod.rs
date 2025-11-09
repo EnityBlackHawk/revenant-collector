@@ -1,5 +1,5 @@
-mod dump_config_desc;
-mod dump_generator;
+pub mod dump_config_desc;
+pub mod dump_generator;
 
 use std::fmt::{Display, Formatter};
 use chrono::{DateTime, FixedOffset, NaiveDateTime, ParseResult};
