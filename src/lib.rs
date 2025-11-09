@@ -1,5 +1,6 @@
 mod stack_entry;
 mod table;
+mod dump;
 
 use libc::{signal, c_int};
 use backtrace::Backtrace;

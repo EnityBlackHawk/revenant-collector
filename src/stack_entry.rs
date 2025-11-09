@@ -1,7 +1,9 @@
 use backtrace::BacktraceSymbol;
 use std::fmt;
+use serde::{Deserialize, Serialize};
 use crate::table::Tabulated;
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct StackEntry {
     name : String,
     file: String,
